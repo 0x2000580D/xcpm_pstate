@@ -1,15 +1,9 @@
 # xcpm_pstate
-Reading `/dev/xcpm` pstate counters to calculate requested package frequency on Intel Macs by infering some structs and doing other crap. The xcpm stands for XNU CPU Power Management, which is Apple's power manager for Intel Macs with Haswell (and newer) chips.
+This is a demonstration on a way you can get CPU p-state distribution, turbo states, and the "active" package frequency on Intel Macs via `/dev/xcpm` (XNU CPU Power Manager). Sadly requires root because of ioctl though, also note that the xcpm is supposedly only available on Haswell or newer, but at this point it doesn't matter.
 
-I figured this method out while reverse engineering [`powermetrics`](https://www.unix.com/man-page/osx/1/powermetrics/), which uses the xcpm to provide data for the `--show-pstates` flag.
+This originated from good ol' closed off powermetrics, which uses the xcpm for the CPU frequency metrics on Intel. At the time I was compelled to make this, I hadn't seen any other examples on how to do it, so I got it done after a little bit of digging around and reverse engineering. I think its cool!
 
-This method sadly reuires root in order to make ioctl calls to /dev :(
-
-## Building
-Use whatever compiler you like, such as `gcc`, for example: `gcc ./xcpm_pstate.c -o xcpm_pstate`
-
-## Example Output
-Example running on MacBookPro11,1. Default sampling rate is 1s.
+You can build it with gcc or whatever to try, of course. Default sampling rate is 1s. Run with sudo. Here's an example from my MacBookPro11,1:
 ```
 Max Efficient State: 3000 MHz
 Non-Turbo States: 800-3000 MHz
